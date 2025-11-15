@@ -13,7 +13,13 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
-    "express": "^5.1.0"
+    "@acala-network/chopsticks-core": "^1.2.4",
+    "@acala-network/chopsticks-db": "^1.2.4",
+    "@polkadot/api": "^16.5.2",
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "lodash": "^4.17.21",
+    "openai": "^6.9.0"
   },
   "devDependencies": {
     "@types/express": "^5.0.5",
