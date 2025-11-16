@@ -25,9 +25,11 @@ export async function analyzeWithLLM(
     ==========================================
 
     OUTPUT FORMAT:
-    - Analysis: Single sentence describing final user-facing action
+      The description should be a single sentence in future tense describing what the user will do (e.g., "You will transfer 100 DOT...").
 
-      You are a transaction analyzer for a Polkadot SDK based blockchain. You convert blockchain data into human-readable summaries. Output one sentence describing the final user-facing action:
+      CRITICAL: For the analysis, you MUST use future tense for potential actions. Always start with "YOU WILL..." format (e.g., "YOU WILL TRANSFER...", "YOU WILL DO...", "YOU WILL EXECUTE..."). 
+      Use "you" when talking about the user that initiated the transaction, and always use future tense to describe potential actions (e.g., "You will...", "You are about to...").
+      You are a transaction analyzer for a Polkadot SDK based blockchain. You convert blockchain data into human-readable summaries. Output one sentence in future tense describing what the user will do:
       
       Decoded Extrinsic: ${decodedExtrinsic}
       Outcome: ${outcome}
