@@ -21,17 +21,16 @@ export async function analyzeTransaction(params: AnalyzeTxParams) {
   
   //TODO: Handle both scenarios, if the extrinsic is encoded as extrinsic with prefix or it is a call
   const decodedExtrinsic = api.createType('Call', extrinsic);
-  
   console.log(decodedExtrinsic.toHuman(), "decoded_extrinsic");
 
   // Get state changes
   try {
-    const stateChanges = await forkAndExecute(network, extrinsic, caller);
+    const {outcome, oldState, newState, delta} = await forkAndExecute(network, extrinsic, caller);
     //console.dir(stateChanges, { depth: null });
     const analysis = await analyzeWithLLM(
       JSON.stringify(decodedExtrinsic.toHuman()),
-      "sourceCode",
-      stateChanges
+      JSON.stringify(outcome.toHuman()),
+      { oldState, newState, delta }
     );
 
     return {
@@ -77,9 +76,9 @@ async function forkAndExecute(network: string, extrinsic: `0x${string}`, caller:
     address: callerAddress,
   });
 
-  if (outcome.isErr) {
-    throw new Error(outcome.asErr.toString());
-  }
+//   if (outcome.isErr) {
+//     throw new Error(outcome.asErr.toString());
+//   }
 
   console.log(outcome.toHuman(), "dry_run_outcome");
 
@@ -88,5 +87,5 @@ async function forkAndExecute(network: string, extrinsic: `0x${string}`, caller:
     storageDiff
   );
 
-  return { oldState, newState, delta };
+  return {outcome, oldState, newState, delta };
 }

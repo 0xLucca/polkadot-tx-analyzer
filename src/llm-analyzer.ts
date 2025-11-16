@@ -3,7 +3,7 @@ import { StorageDiffResult } from "./state-decoder";
 
 export async function analyzeWithLLM(
     decodedExtrinsic: string,
-    sourceCode: string,
+    outcome: string,
     stateChanges: StorageDiffResult
   ) {
     const apiKey = process.env.OPENAI_API_KEY;
@@ -21,14 +21,21 @@ export async function analyzeWithLLM(
       const temperature = 0.2;
     //const groq = new Groq({apiKey: process.env.GROQ_API_KEY}); // Pass the API key to the Groq constructor
     const prompt = `
-      You are a transaction analyzer for a Polkadot SDK based blockchain. Analyze the following transaction:
+    SPECIFICATION (MANDATORY):
+    ==========================================
+
+    OUTPUT FORMAT:
+    - Analysis: Single sentence describing final user-facing action
+
+      You are a transaction analyzer for a Polkadot SDK based blockchain. You convert blockchain data into human-readable summaries. Output one sentence describing the final user-facing action:
+      
       Decoded Extrinsic: ${decodedExtrinsic}
-      Source Code: ${sourceCode}
+      Outcome: ${outcome}
       Old State: ${JSON.stringify(stateChanges.oldState)}
       New State: ${JSON.stringify(stateChanges.newState)}
       
       Your analysis should:
-      1. Identify and explain the main action of this transaction in clear, intermediate-level terms
+      1. Identify and explain the main action of this transaction in clear terms
       2. Review all side effects and state changes to identify anything unusual, suspicious, or potentially malicious
       3. Highlight any security concerns or unexpected behaviors that should be flagged
       
