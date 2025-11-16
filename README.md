@@ -19,7 +19,7 @@ A REST API service that analyzes Polkadot SDK-based blockchain transactions by f
 
 1. Clone the repository:
 ```bash
-git clone <repository-url>
+git clone https://github.com/0xLucca/polkadot-tx-analyzer
 cd polkadot-tx-analyzer
 ```
 
